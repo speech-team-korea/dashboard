@@ -2,6 +2,7 @@ export interface ConferenceDeadline {
   id: string;
   conference: string;
   deadline: string;
+  category?: string;
 }
 
 export interface ClockZone {
