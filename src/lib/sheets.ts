@@ -24,11 +24,13 @@ export const deadlinesSheetEditUrl = toGoogleSheetUrl(DEADLINES_GID);
 export const worldClocksSheetEditUrl = toGoogleSheetUrl(WORLD_CLOCKS_GID);
 
 async function fetchJson<T>(url: string): Promise<T> {
-  const res = await fetch(`${url}?t=${Date.now()}`);
+  const res = await fetch(url);
+
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`HTTP ${res.status}: ${text || "empty response"}`);
   }
+
   return res.json() as Promise<T>;
 }
 
