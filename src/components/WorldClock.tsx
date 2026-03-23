@@ -13,7 +13,7 @@ export function WorldClock({ now, zones, editUrl }: WorldClockProps) {
   return (
     <Panel
       title="World Clock"
-      rightSlot={<EditSheetButton href={editUrl} label="시계 목록 수정" />}
+      rightSlot={<EditSheetButton href={editUrl} label="Edit" />}
     >
       <div className="grid h-full auto-rows-fr gap-3 overflow-auto sm:gap-4">
         {zones.map((zone) => (

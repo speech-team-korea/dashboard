@@ -15,7 +15,7 @@ export function DdayTracker({ deadlines, now, editUrl }: DdayTrackerProps) {
       title="Conference Event D-Day"
       rightSlot={
         <div className="flex items-center gap-2">
-          <EditSheetButton href={editUrl} label="시트에서 수정" />
+          <EditSheetButton href={editUrl} label="Edit" />
           <span className="rounded-md bg-cyan-400/10 px-3 py-1.5 text-xs font-medium uppercase tracking-wide text-cyan-200 ring-1 ring-cyan-400/30 sm:text-sm">
             {deadlines.length} Upcoming
           </span>
