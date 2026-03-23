@@ -99,3 +99,18 @@ src/
 - Replace `data/conferenceDeadlines.json` with API data once backend is ready.
 - Keep data transformation logic in `src/utils/` for easy migration.
 - UI components in `src/components/` are reusable and isolated from data source details.
+
+
+## Google Sheets setup
+
+1. Create one Google Spreadsheet with two tabs:
+   - `deadlines` with columns `id`, `conference`, `deadline`
+   - `world_clocks` with columns `id`, `city`, `region`, `timezone`
+2. Publish/share the sheet so OpenSheet can read it.
+3. Copy `.env.example` to `.env` and fill in:
+   - `VITE_GOOGLE_SHEET_ID`
+   - optional tab names if different
+   - optional `GID` values so the "edit in sheet" buttons open the correct tab
+4. Restart the dev server.
+
+If `.env` is empty, the app falls back to the bundled mock data.

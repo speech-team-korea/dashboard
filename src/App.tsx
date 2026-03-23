@@ -1,68 +1,52 @@
 import { useEffect, useMemo, useState } from "react";
 import { DdayTracker } from "./components/DdayTracker";
-import { DeadlineEditor } from "./components/DeadlineEditor";
 import { WorldClock } from "./components/WorldClock";
 import { useNow } from "./hooks/useNow";
 import { getUpcomingDeadlines } from "./utils/date";
 import { formatDateInZone, formatTimeInZone } from "./utils/time";
-import type { ConferenceDeadline } from "./types/dashboard";
+import type { ClockZone, ConferenceDeadline } from "./types/dashboard";
 import {
-  createDeadline,
-  deleteDeadline,
+  deadlinesSheetEditUrl,
   fetchDeadlines,
-  updateDeadline
+  fetchWorldClocks,
+  worldClocksSheetEditUrl
 } from "./lib/sheets";
 
 function App() {
   const now = useNow(1000);
-
   const [deadlines, setDeadlines] = useState<ConferenceDeadline[]>([]);
+  const [worldClocks, setWorldClocks] = useState<ClockZone[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editingItem, setEditingItem] = useState<ConferenceDeadline | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadAll = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const [deadlineData, worldClockData] = await Promise.all([
+          fetchDeadlines(),
+          fetchWorldClocks()
+        ]);
+
+        setDeadlines(deadlineData);
+        setWorldClocks(worldClockData);
+      } catch (err) {
+        console.error(err);
+        setError(err instanceof Error ? err.message : "시트 데이터를 불러오지 못했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAll();
+  }, []);
 
   const upcomingDeadlines = useMemo(
     () => getUpcomingDeadlines(deadlines, now),
     [deadlines, now]
   );
-
-  const loadDeadlines = async () => {
-    setLoading(true);
-    try {
-      const data = await fetchDeadlines();
-      setDeadlines(data);
-    } catch (error) {
-      console.error(error);
-      alert("데이터를 불러오지 못했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadDeadlines();
-  }, []);
-
-  const handleCreate = async (value: ConferenceDeadline) => {
-    await createDeadline(value);
-    await loadDeadlines();
-  };
-
-  const handleUpdate = async (value: ConferenceDeadline) => {
-    await updateDeadline(value);
-    setEditingItem(null);
-    await loadDeadlines();
-  };
-
-  const handleDelete = async (id: string) => {
-    const ok = window.confirm("정말 삭제하시겠습니까?");
-    if (!ok) return;
-
-    await deleteDeadline(id);
-    if (editingItem?.id === id) {
-      setEditingItem(null);
-    }
-    await loadDeadlines();
-  };
 
   return (
     <div className="h-full w-full overflow-hidden px-4 py-4 sm:px-6 sm:py-6 xl:px-10 xl:py-8">
@@ -77,7 +61,6 @@ function App() {
                 Speech Processing Team
               </h1>
             </div>
-
             <div className="text-left lg:text-right">
               <p className="text-[10px] uppercase tracking-[0.3em] text-slate-400 sm:text-xs">
                 Seoul Local
@@ -92,35 +75,38 @@ function App() {
           </div>
         </header>
 
+        {error ? (
+          <div className="rounded-2xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
+            시트 데이터를 불러오지 못했습니다. 설정을 확인하세요. 상세 오류: {error}
+          </div>
+        ) : null}
+
         <main className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-6">
           <section className="min-h-0 lg:col-span-8">
             {loading ? (
-              <div className="rounded-2xl border border-slate-700/60 bg-slate-900/70 p-6 text-slate-300">
-                Loading...
+              <div className="flex h-full items-center justify-center rounded-2xl border border-slate-700/60 bg-slate-900/70 p-6 text-slate-300">
+                Loading deadlines...
               </div>
             ) : (
               <DdayTracker
                 deadlines={upcomingDeadlines}
                 now={now}
-                onEdit={setEditingItem}
-                onDelete={handleDelete}
+                editUrl={deadlinesSheetEditUrl}
               />
             )}
           </section>
-
-          <section className="min-h-0 space-y-4 lg:col-span-4">
-            <DeadlineEditor title="마감 추가" onSubmit={handleCreate} />
-
-            {editingItem ? (
-              <DeadlineEditor
-                title="마감 수정"
-                initialValue={editingItem}
-                onSubmit={handleUpdate}
-                onCancel={() => setEditingItem(null)}
+          <section className="min-h-0 lg:col-span-4">
+            {loading ? (
+              <div className="flex h-full items-center justify-center rounded-2xl border border-slate-700/60 bg-slate-900/70 p-6 text-slate-300">
+                Loading clocks...
+              </div>
+            ) : (
+              <WorldClock
+                now={now}
+                zones={worldClocks}
+                editUrl={worldClocksSheetEditUrl}
               />
-            ) : null}
-
-            <WorldClock now={now} />
+            )}
           </section>
         </main>
       </div>
