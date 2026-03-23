@@ -1,0 +1,32 @@
+[
+  {
+    "id": "acl-2026-final",
+    "conference": "ACL 2026 Final",
+    "deadline": "2026-04-04"
+  },
+  {
+    "id": "emnlp-2026",
+    "conference": "EMNLP 2026 Submission",
+    "deadline": "2026-05-25"
+  },
+  {
+    "id": "neurips-2026",
+    "conference": "NeurIPS 2026 Submission",
+    "deadline": "2026-05-06"
+  },
+  {
+    "id": "iclr-2026",
+    "conference": "ICLR 2026",
+    "deadline": "2026-04-23"
+  },
+  {
+    "id": "interspeech-2026-review",
+    "conference": "INTERSPEECH 2026 Review",
+    "deadline": "2026-04-24"
+  },
+    {
+    "id": "interspeech-2026",
+    "conference": "INTERSPEECH 2026",
+    "deadline": "2026-09-27"
+  }
+]
