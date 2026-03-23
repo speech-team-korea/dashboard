@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { DdayTracker } from "./components/DdayTracker";
 import { WorldClock } from "./components/WorldClock";
-import { conferenceDeadlines } from "./data";
+import { conferenceDeadlines } from "../data";
 import { useNow } from "./hooks/useNow";
 import { getUpcomingDeadlines } from "./utils/date";
 import { formatDateInZone, formatTimeInZone } from "./utils/time";

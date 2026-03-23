@@ -71,7 +71,14 @@ npm run preview
 ## Project Structure
 
 ```text
+data/
+  conferenceDeadlines.json
+  index.ts
+  worldClocks.ts
 src/
+  App.tsx
+  index.css
+  main.tsx
   components/
     ClockCard.tsx
     DdayItem.tsx
@@ -83,19 +90,12 @@ src/
   utils/
     date.ts
     time.ts
-  data/
-    conferenceDeadlines.json
-    index.ts
-    worldClocks.ts
   types/
     dashboard.ts
-  App.tsx
-  index.css
-  main.tsx
 ```
 
 ## Notes for Extension
 
-- Replace `src/data/conferenceDeadlines.json` with API data once backend is ready.
+- Replace `data/conferenceDeadlines.json` with API data once backend is ready.
 - Keep data transformation logic in `src/utils/` for easy migration.
 - UI components in `src/components/` are reusable and isolated from data source details.

@@ -1,4 +1,4 @@
-import { worldClocks } from "../data";
+import { worldClocks } from "../../data";
 import { ClockCard } from "./ClockCard";
 import { Panel } from "./Panel";
 

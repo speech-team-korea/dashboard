@@ -1,4 +1,4 @@
-import type { ClockZone } from "../types/dashboard";
+import type { ClockZone } from "../src/types/dashboard";
 
 export const worldClocks: ClockZone[] = [
   {
