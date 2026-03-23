@@ -1,7 +1,7 @@
 import type { ConferenceDeadline } from "../types/dashboard";
 
-const SHEET_ID = "여기에_구글시트_ID";
-const SHEET_NAME = "deadlines";
+const SHEET_ID = "1od0GrRgw-AiOJnGnisWBKoCdadtelXHERR3_TyrnIF8";
+const SHEET_NAME = "1";
 
 const READ_URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
 const WRITE_URL = "여기에_앱스크립트_배포_URL";
