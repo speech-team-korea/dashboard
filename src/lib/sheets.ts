@@ -4,7 +4,7 @@ const SHEET_ID = "1od0GrRgw-AiOJnGnisWBKoCdadtelXHERR3_TyrnIF8";
 const SHEET_NAME = "1";
 
 const READ_URL = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
-const WRITE_URL = "여기에_앱스크립트_배포_URL";
+const WRITE_URL = "https://script.google.com/macros/s/AKfycbyv8s2UCcBFVDfo1moR5JQpvMF_CKTSRKATnegkgVUKaHTSX3aGpAkZuZbwjTt5ffjp/exec";
 
 export async function fetchDeadlines(): Promise<ConferenceDeadline[]> {
   const res = await fetch(READ_URL);
